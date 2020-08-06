@@ -1,2 +1,5 @@
-payload:          tomcat
-tomcat_web_root:  /usr/share/tomcat/webapps/ROOT
+---
+
+tomcat_web_basedir: "/usr/share/tomcat/webapps"
+tomcat_web_root: "{{ tomcat_web_basedir }}/ROOT"
+tomcat_web_ansible: "{{ tomcat_web_basedir }}//ansible"

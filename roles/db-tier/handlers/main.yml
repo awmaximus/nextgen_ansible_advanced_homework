@@ -1,7 +1,7 @@
 ---
 
-- name: restart haproxy
+- name: restart postgresql
   service:
-    name: haproxy
+    name: postgresql
     state: restarted
     enabled: true

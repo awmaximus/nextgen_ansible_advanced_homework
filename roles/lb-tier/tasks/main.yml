@@ -3,7 +3,7 @@
 - name: Install HAProxy
   yum:
     name: haproxy
-    state: lastest
+    state: latest
 
 - name: configure haproxy
   template:

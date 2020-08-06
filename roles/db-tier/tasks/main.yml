@@ -3,7 +3,7 @@
 - name: install postgresql
   yum:
     name: postgresql-server
-    state: lastest
+    state: latest
 
 - name: Check if Postgres initialized
   stat:

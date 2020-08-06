@@ -17,4 +17,4 @@
 - name: install base tools and packages
   yum:
     name: wget
-    state: lastest
+    state: latest

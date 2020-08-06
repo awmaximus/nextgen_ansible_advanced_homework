@@ -8,3 +8,4 @@ export JQ_REPO_BASE=http://www.opentlc.com/download/ansible_bootcamp
 export REGION=us-east-1
 export MAIL_ID=<Your mail id>
 
+

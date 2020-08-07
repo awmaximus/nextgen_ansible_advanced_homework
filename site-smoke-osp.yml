@@ -1,11 +1,45 @@
+---
+
 - hosts: workstation
   gather_facts: false
-  tasks:
-  - name: OpenStack servers
-  - name: Curl website
+  vars:
+    servers:
+      - frontend
+      - app1
+      - app2
+      - db
 
-  - name: Fail if 'Ansible has done its job' is not in the page content
-    fail:
-    when: "'Ansible has done its job' not in webpage.results[0].content"
-    tags:
-      - osp.smoke
+  tasks:
+    - name: OpenStack servers
+      os_server_facts:
+        cloud: openstack
+      register: result
+
+    - name: Compare list of servers
+      set_fact:
+        servers_diff: "{{ servers | difference(result.ansible_facts.openstack_servers | map(attribute='name')) }}"
+
+    - name: Show non-provisioned servers if exists
+      debug:
+        msg: "{{ servers_diff }}"
+      when: servers_diff|length != 0
+
+    - name: Fail if exists non-provisioned servers
+      fail:
+      when: servers_diff|length != 0
+
+    - name: Curl website
+      uri:
+        url: "http://{{ item.public_v4 }}"
+        status_code: 200
+        return_content: true
+      when: 'item.hostname == "frontend"'
+      loop: "{{ result.ansible_facts.openstack_servers }}"
+      ignore_errors: true
+      register: webpage
+
+    - name: Fail if 'Ansible has done its job' is not in the page content
+      fail:
+      when: "'Ansible has done its job' not in webpage.results[0].content"
+      tags:
+        - osp.smoke

@@ -42,10 +42,6 @@
       ignore_errors: true
       register: webpage
 
-    - name: Website content
-      debug:
-        var: webpage.content
-
     - name: Fail if 'Ansible has done its job' is not in the page content
       fail:
       when: "'Ansible has done its job' not in (webpage.results |  map(attribute='content') | select('string') | list)[0]"

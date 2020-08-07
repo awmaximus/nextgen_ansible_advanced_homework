@@ -15,6 +15,10 @@
         cloud: openstack
       register: result
 
+    - name: Show OpenStack servers
+      debug:
+        var: result
+
     - name: Compare list of servers
       set_fact:
         servers_diff: "{{ servers | difference(result.ansible_facts.openstack_servers | map(attribute='name')) }}"

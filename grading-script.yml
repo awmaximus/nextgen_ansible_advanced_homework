@@ -40,7 +40,7 @@
 
   - name: Fail
     fail:
-    when: "'Ansible' not in qa_webpage.results[0].content" 
+    when: "'Ansible' not in (qa_webpage.results |  map(attribute='content') | select('string') | list)[0]" 
 
   
 - hosts: localhost

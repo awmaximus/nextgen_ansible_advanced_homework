@@ -17,11 +17,11 @@
 
     - name: Show OpenStack servers
       debug:
-        var: result
+        msg: "{{ result.ansible_facts.openstack_servers | map(attribute='hostname') | list | sort }}"
 
     - name: Compare list of servers
       set_fact:
-        servers_diff: "{{ servers | difference(result.ansible_facts.openstack_servers | map(attribute='name')) }}"
+        servers_diff: "{{ servers | sort | difference(result.ansible_facts.openstack_servers | map(attribute='hostname') | list | sort) }}"
 
     - name: Show non-provisioned servers if exists
       debug:
